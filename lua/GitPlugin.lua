@@ -8,30 +8,13 @@ local function get_files_in_directory(path)
     local handle = io.popen("git -C " .. path .. " status --porcelain")
     if handle then
       for line in handle:lines() do
-        --local x, y, file = line:match("^(..)%s+(.*)$")
         local x, y, file = line:match("^(.)(.)%s+(.*)$")
-        --local x, y, file = line:match("^(%S)(%S)%s+(.*)$")
         if x and y and file then
           status_map[file] = { x = x, y = y}
         end
       end
       handle: close()
     end
-
-    --for file, status in pairs(status_map) do
-    --  status.x = status.x or " "
-    --  status.y = status.y or " "
-    --end
-
-    --local handle = uv.fs_scandir(path)
-    --if handle then
-    --    while true do
-    --        local name, type = uv.fs_scandir_next(handle)
-    --        if not name then break end
-    --        table.insert(files, name .. (type == "directory" and "/" or ""))
-    --    end
-    --end
-    --return files
 
     local handle = uv.fs_scandir(path)
     if handle then
@@ -69,7 +52,6 @@ local function get_files_in_directory(path)
           icon2 = "   "
         end
 
-        --table.insert(files, status.x .. status.y .. full_name)
         table.insert(files, icon .. icon2 .. full_name)
 
       end
@@ -273,7 +255,6 @@ M.git_add_all = git_add_all
 vim.api.nvim_create_user_command(
   "GitManager",
   function()
-    --require("GitPlugin").create_file_explorer()
     M.run_my_plugin()
   end,
   {
@@ -282,16 +263,3 @@ vim.api.nvim_create_user_command(
 )
 
 return M
-
-
-
---return {
---    create_file_explorer = create_file_explorer,
---    handle_selection = handle_selection,
---    git_add = git_add,
---    git_commit = git_commit,
---    close_explorer = close_explorer,
---    git_remove = git_remove,
---    git_add_all = git_add_all,
---}
-
