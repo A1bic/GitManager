@@ -52,8 +52,7 @@ local function get_files_in_directory(path)
           icon2 = "   "
         end
 
-        --table.insert(files, icon .. icon2 .. full_name)
-        table.insert(files, status.x .. status.y .. full_name)
+        table.insert(files, icon .. icon2 .. full_name)
 
       end
     end
